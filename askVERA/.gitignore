@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build output
+dist/
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.*.local
+
+# JetBrains IDE
+.idea/
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# Pack output
+*.zip
+
+# OS
+.DS_Store

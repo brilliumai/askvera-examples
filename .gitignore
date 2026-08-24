@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Lock files (partners use their own package manager)
+package-lock.json
+yarn.lock
+
+# Build output
+dist/
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.*.local
+
+# JetBrains IDE
+.idea/
+
+# VS Code
+.vscode/
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# Pack output
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private files (secrets, keys)
+private/
+
+# Claude Code
+.claude/

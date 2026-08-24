@@ -1,0 +1,45 @@
+name: Release & Upload Examples
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Extract version from tag
+              run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+            - name: Pack askVERA example
+              run: make -C askVERA pack
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_S3_RW_ACCESS_KEY }}
+                  aws-secret-access-key: ${{ secrets.AWS_S3_RW_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-2
+
+            - name: Upload versioned zip to S3
+              run: |
+                  aws s3 cp askVERA/askvera-example.zip \
+                    "s3://askvet-public-assets/examples/askvera-example-${VERSION}.zip" \
+                    --content-type application/zip
+
+            - name: Upload latest zip to S3 (backwards-compatible key)
+              run: |
+                  aws s3 cp askVERA/askvera-example.zip \
+                    s3://askvet-public-assets/examples/askvera-example.zip \
+                    --content-type application/zip
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: askVERA/askvera-example.zip
+                  generate_release_notes: true

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Partner Portal - Demo</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: #f5f7fa;
+                color: #333;
+            }
+            .header {
+                background: #1a365d;
+                color: white;
+                padding: 20px 40px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .header p {
+                opacity: 0.8;
+                margin-top: 4px;
+            }
+            .container {
+                max-width: 600px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+            .card {
+                background: white;
+                border-radius: 12px;
+                padding: 32px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+            .card h2 {
+                margin-bottom: 24px;
+                font-size: 20px;
+            }
+            .field {
+                margin-bottom: 16px;
+            }
+            .field label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 4px;
+                font-size: 14px;
+            }
+            .field input {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                font-size: 14px;
+            }
+            .field input:focus {
+                outline: none;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
+            .field small {
+                color: #6b7280;
+                font-size: 12px;
+            }
+            .section-title {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 24px 0 12px;
+                padding-top: 16px;
+                border-top: 1px solid #e5e7eb;
+            }
+            .btn {
+                display: inline-block;
+                background: #2563eb;
+                color: white;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 24px;
+            }
+            .btn:hover {
+                background: #1d4ed8;
+            }
+            .note {
+                background: #fef3c7;
+                border: 1px solid #f59e0b;
+                border-radius: 8px;
+                padding: 16px;
+                margin-top: 24px;
+                font-size: 14px;
+            }
+            .note strong {
+                color: #92400e;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Partner Portal (Demo)</h1>
+            <p>Simulates a partner's customer portal with a "24/7 Vet Chat" button</p>
+        </div>
+
+        <div class="container">
+            <form class="card" action="/launch-vet-chat" method="POST">
+                <h2>Launch Vet Chat</h2>
+                <p style="color: #6b7280; margin-bottom: 20px">
+                    Fill in the user details below and click the button. Your server will call the AskVERA API and
+                    redirect you to the chat app.
+                </p>
+
+                <div class="field">
+                    <label>Email *</label>
+                    <input type="email" name="email" required value="jane.doe@example.com" />
+                </div>
+                <div class="field">
+                    <label>First Name *</label>
+                    <input type="text" name="firstName" required value="Jane" />
+                </div>
+                <div class="field">
+                    <label>Last Name *</label>
+                    <input type="text" name="lastName" required value="Doe" />
+                </div>
+                <div class="field">
+                    <label>Postal Code</label>
+                    <input type="text" name="postalCode" value="90210" />
+                </div>
+                <div class="field">
+                    <label>External ID</label>
+                    <input type="text" name="externalId" placeholder="Your internal user ID" value="USR-12345" />
+                    <small>Your system's unique user identifier (optional but recommended)</small>
+                </div>
+
+                <div class="section-title">Pet (optional)</div>
+
+                <div class="field">
+                    <label>Pet Name</label>
+                    <input type="text" name="petName" value="Buddy" />
+                </div>
+                <div class="field">
+                    <label>Species</label>
+                    <input type="text" name="species" value="dog" />
+                </div>
+                <div class="field">
+                    <label>Breed</label>
+                    <input type="text" name="breed" value="Golden Retriever" />
+                </div>
+                <div class="field">
+                    <label>Birth Date</label>
+                    <input type="text" name="birthDate" placeholder="YYYY-MM-DD" value="2021-03-15" />
+                </div>
+
+                <button type="submit" class="btn">Open 24/7 Vet Chat</button>
+            </form>
+
+            <div class="note">
+                <strong>How it works:</strong> When you click the button, the demo server (1) authenticates with AskVERA
+                via OAuth, (2) calls <code>POST /api/askvera/v1/partner/login-token</code> with the user/pet data, (3)
+                receives a <code>loginUrl</code>, and (4) redirects your browser to that URL. The user lands directly in
+                the chat — no sign-up or payment required.
+            </div>
+        </div>
+    </body>
+</html>
