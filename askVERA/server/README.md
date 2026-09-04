@@ -39,17 +39,44 @@ yarn dev               # starts with --watch (auto-restart on changes)
 
 ### WebSocket events
 
-Connect to `ws://localhost:3001/ws?sessionId=<id>`. The server polls AskVERA and pushes events whenever new messages arrive:
+Connect to `ws://localhost:3001/ws?sessionId=<id>`. The server maintains an upstream WebSocket to AskVERA and pushes `session.update` events whenever new messages arrive:
 
 ```json
 {
     "type": "session.update",
     "session": {
         "id": "...",
-        "messages": [{"id": "...", "message": "...", "isVendorResponse": true, "createdAt": "..."}]
+        "sessionName": "Itchy skin on golden retriever",
+        "chatSessionType": "vendor",
+        "chatSessionStatus": "open",
+        "messages": [
+            {
+                "id": "...",
+                "message": "My dog has been scratching a lot...",
+                "isVendorResponse": false,
+                "authorProfileId": "user-uuid",
+                "authorName": "Jane Doe",
+                "authorPhotoURL": null,
+                "createdAt": "2026-09-04T12:00:00.000Z"
+            },
+            {
+                "id": "...",
+                "message": "I'd recommend checking for fleas first...",
+                "isVendorResponse": true,
+                "authorProfileId": "vet-uuid",
+                "authorName": "Dr. Smith",
+                "authorPhotoURL": "https://...",
+                "createdAt": "2026-09-04T12:00:05.000Z"
+            }
+        ]
     }
 }
 ```
+
+Key message fields:
+- `isVendorResponse` — `true` for AI/vet responses, `false` for user messages
+- `authorName` — sender's display name
+- `authorPhotoURL` — sender's profile photo URL (vet photo during live chat, `null` for AI bot)
 
 ## Environment variables
 

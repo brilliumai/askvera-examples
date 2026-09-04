@@ -44,8 +44,11 @@ app.get('/health', (_req, res) => res.json({ok: true}))
 //
 // A single authenticated WebSocket connection receives real-time events for the
 // account (session.started, session.message, session.ended, session.escalated).
-// When an event arrives, the server fetches the full session and pushes it to
-// every browser client watching that sessionId.
+// Each event includes a `data` object with event-specific fields — for
+// session.message events, `data` includes message, isVendorResponse, authorName,
+// authorPhotoURL, and sessionName.
+// When an event arrives, the server fetches the full session via REST and pushes
+// it to every browser client watching that sessionId.
 //
 // If the upstream WS is unavailable, browser clients fall back to per-client
 // REST polling automatically.
